@@ -21,42 +21,108 @@ class AdminController
     {
         if (!isset($_SESSION['id']) || $_SESSION['rol'] !== 'admin') {
             header('Location: index.php?page=login');
-            return;
+            exit;
         }
+
         require __DIR__ . '/../views/admin/solicitudes.php';
     }
-    
-    // Aprobar solicitud
+
+    public function getSolicitudesJson()
+{
+    header('Content-Type: application/json');
+
+    if (!isset($_SESSION['id']) || $_SESSION['rol'] !== 'admin') {
+        echo json_encode([]);
+        exit;
+    }
+
+    $solicitudes = $this->solicitudModel->getPendientes();
+    echo json_encode($solicitudes);
+    exit;
+}
+
     public function aprobar()
     {
+        header('Content-Type: application/json');
+
         if (!isset($_SESSION['id']) || $_SESSION['rol'] !== 'admin') {
             echo json_encode(['success' => false, 'error' => 'No autorizado']);
-            return;
+            exit;
         }
-        
-        $solicitudId = $_POST['id_solicitud'] ?? 0;
-        
-        try {
-            
-            echo json_encode(['success' => true]);
-            
-        } catch (Exception $e) {
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+
+        $solicitudId = isset($_POST['id_solicitud']) ? (int)$_POST['id_solicitud'] : 0;
+
+        if ($solicitudId <= 0) {
+            echo json_encode(['success' => false, 'error' => 'Solicitud inválida']);
+            exit;
         }
+
+        $solicitud = $this->solicitudModel->getById($solicitudId);
+
+        if (!$solicitud) {
+            echo json_encode(['success' => false, 'error' => 'La solicitud no existe']);
+            exit;
+        }
+
+        if ($solicitud['estado'] !== 'pendiente') {
+            echo json_encode(['success' => false, 'error' => 'La solicitud ya fue procesada']);
+            exit;
+        }
+
+        $taller = $this->tallerModel->getById($solicitud['taller_id']);
+
+        if (!$taller) {
+            echo json_encode(['success' => false, 'error' => 'El taller no existe']);
+            exit;
+        }
+
+        if ((int)$taller['cupo_disponible'] <= 0) {
+            echo json_encode(['success' => false, 'error' => 'No hay cupos disponibles']);
+            exit;
+        }
+
+        $descontado = $this->tallerModel->descontarCupo($solicitud['taller_id']);
+
+        if (!$descontado) {
+            echo json_encode(['success' => false, 'error' => 'No fue posible descontar el cupo']);
+            exit;
+        }
+
+        $aprobada = $this->solicitudModel->aprobar($solicitudId);
+
+        if (!$aprobada) {
+            $this->tallerModel->sumarCupo($solicitud['taller_id']);
+            echo json_encode(['success' => false, 'error' => 'No fue posible aprobar la solicitud']);
+            exit;
+        }
+
+        echo json_encode(['success' => true, 'message' => 'Solicitud aprobada correctamente']);
+        exit;
     }
+
     public function rechazar()
     {
+        header('Content-Type: application/json');
+
         if (!isset($_SESSION['id']) || $_SESSION['rol'] !== 'admin') {
             echo json_encode(['success' => false, 'error' => 'No autorizado']);
-            return;
+            exit;
         }
-        
-        $solicitudId = $_POST['id_solicitud'] ?? 0;
-        
-        if ($this->solicitudModel->rechazar($solicitudId)) {
-            echo json_encode(['success' => true]);
+
+        $solicitudId = isset($_POST['id_solicitud']) ? (int)$_POST['id_solicitud'] : 0;
+
+        if ($solicitudId <= 0) {
+            echo json_encode(['success' => false, 'error' => 'Solicitud inválida']);
+            exit;
+        }
+
+        $rechazada = $this->solicitudModel->rechazar($solicitudId);
+
+        if ($rechazada) {
+            echo json_encode(['success' => true, 'message' => 'Solicitud rechazada correctamente']);
         } else {
-            echo json_encode(['success' => false, 'error' => 'Error al rechazar']);
+            echo json_encode(['success' => false, 'error' => 'No se pudo rechazar la solicitud']);
         }
+        exit;
     }
 }

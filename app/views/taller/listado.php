@@ -1,18 +1,13 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-
-    <title>Listado Talleres</title>
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Talleres</title>
+    <link rel="stylesheet" href="public/css/style.css">
     <script src="public/js/jquery-4.0.0.min.js"></script>
 </head>
-
-<body class="container mt-5">
-
+<body>
     <nav>
         <div>
             <a href="index.php?page=talleres">Talleres</a>
@@ -21,22 +16,37 @@
             <?php endif; ?>
         </div>
         <div>
-            <span> <?= htmlspecialchars($_SESSION['nombre'] ?? $_SESSION['user'] ?? 'Usuario') ?></span>
-            <button id="btnLogout" class="btn btn-primary">Cerrar sesión</button>
+            <span>Usuario: <?= htmlspecialchars($_SESSION['user'] ?? 'Usuario') ?></span>
+            <button id="btnLogout" class="btn-logout">Cerrar sesión</button>
         </div>
     </nav>
+
     <main>
-        <h3>Talleres</h3>
+        <h2>Talleres disponibles</h2>
 
-        <table class="table table-bordered">
+        <div id="mensaje" class="mensaje-box" style="display:none;"></div>
 
-
-
-        </table>
+        <div class="table-container">
+            <table id="tabla-talleres">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Cupo máximo</th>
+                        <th>Cupo disponible</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="talleres-body">
+                    <tr>
+                        <td colspan="6" class="loader">Cargando talleres...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </main>
 
-
-
+    <script src="public/js/taller.js"></script>
 </body>
-
 </html>

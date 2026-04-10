@@ -1,43 +1,48 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-
-    <title>Login</title>
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Talleres</title>
+    <link rel="stylesheet" href="public/css/style.css">
     <script src="public/js/jquery-4.0.0.min.js"></script>
     <script src="public/js/auth.js"></script>
 </head>
+<body class="auth-body">
 
-<body class="container mt-5">
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Iniciar sesión</h2>
+            <p class="auth-subtitle">Sistema de inscripción a talleres</p>
 
-    <h2>Login</h2>
+            <div id="mensaje" class="mensaje-box" style="display:none;"></div>
 
-    <form id="formLogin">
-        <input
-            class="form-control mb-2"
-            name="username"
-            id="username"
-            placeholder="Usuario">
+            <form id="formLogin">
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Ingrese su usuario"
+                    >
+                </div>
 
-        <input
-            type="password"
-            class="form-control mb-2"
-            name="password"
-            id="password"
-            placeholder="Contraseña">
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Ingrese su contraseña"
+                    >
+                </div>
 
-        <button type="submit" class="btn btn-primary">
-            Ingresar
-        </button>
-        <a href="index.php?page=registro" class="btn btn-secondary">Registrarse</a>
-    </form>
-
-
+                <button type="submit" class="btn-primary">Ingresar</button>
+                <a href="index.php?page=registro" class="btn-secondary">Registrarse</a>
+            </form>
+        </div>
+    </div>
 
 </body>
-
 </html>

@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Solicitudes pendientes</title>
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="public/css/style.css">
     <script src="public/js/jquery-4.0.0.min.js"></script>
-    
 </head>
 <body>
     <nav>
@@ -15,14 +14,16 @@
             <a href="index.php?page=admin">Gestionar Solicitudes</a>
         </div>
         <div>
-            <span>Admin: <?= htmlspecialchars($_SESSION['nombre'] ?? $_SESSION['user'] ?? 'Administrador') ?></span>
+            <span>Admin: <?= htmlspecialchars($_SESSION['user'] ?? 'Administrador') ?></span>
             <button id="btnLogout" class="btn-logout">Cerrar sesión</button>
         </div>
     </nav>
-    
+
     <main>
         <h2>Solicitudes pendientes de aprobación</h2>
-        
+
+        <div id="mensaje" class="mensaje-box" style="display:none;"></div>
+
         <div class="table-container">
             <table id="tabla-solicitudes">
                 <thead>
@@ -30,7 +31,7 @@
                         <th>ID</th>
                         <th>Taller</th>
                         <th>Solicitante</th>
-                        <th>Usuario</th>
+                        <th>Usuario ID</th>
                         <th>Fecha</th>
                         <th>Acciones</th>
                     </tr>
@@ -44,8 +45,6 @@
         </div>
     </main>
 
-    <div id="mensaje"></div>
-
-    
+    <script src="public/js/solicitud.js"></script>
 </body>
 </html>

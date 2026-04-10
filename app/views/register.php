@@ -1,43 +1,48 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-
-    <title>Login</title>
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Talleres</title>
+    <link rel="stylesheet" href="public/css/style.css">
     <script src="public/js/jquery-4.0.0.min.js"></script>
     <script src="public/js/register.js"></script>
 </head>
+<body class="auth-body">
 
-<body class="container mt-5">
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Crear cuenta</h2>
+            <p class="auth-subtitle">Regístrate para solicitar talleres</p>
 
-    <h2>Registro</h2>
+            <div id="mensaje" class="mensaje-box" style="display:none;"></div>
 
-    <form id="formRegister">
-        <input
-            class="form-control mb-2"
-            name="username"
-            id="username"
-            placeholder="Usuario">
+            <form id="formRegister">
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Crea tu usuario"
+                    >
+                </div>
 
-        <input
-            type="password"
-            class="form-control mb-2"
-            name="password"
-            id="password"
-            placeholder="Contraseña">
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Crea tu contraseña"
+                    >
+                </div>
 
-        <button type="submit" class="btn btn-primary">
-            Ingresar
-        </button>
-
-    </form>
-
-
+                <button type="submit" class="btn-primary">Registrarse</button>
+                <a href="index.php?page=login" class="btn-secondary">Volver al login</a>
+            </form>
+        </div>
+    </div>
 
 </body>
-
 </html>
